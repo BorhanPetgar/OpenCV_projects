@@ -1,3 +1,3 @@
 # OpenCV_projects
-Here We've got OpenCV Object Detection Projects!\n
-Cheers!🍾
+## Here We've got OpenCV Object Detection Projects!
+### Cheers!🍾
