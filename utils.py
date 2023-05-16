@@ -10,11 +10,17 @@ def get_limits(color):
 
 
     hsvC = cv2.cvtColor(c, cv2.COLOR_BGR2HSV)
-     
-    lowerLimit = hsvC[0][0][0] - 10, 100, 100
-    upperLimit = hsvC[0][0][0] + 10, 255, 255
 
-    lowerLimit = np.array(lowerLimit, dtype=np.uint8)
-    upperLimit = np.array(upperLimit, dtype=np.uint8)
+    # Adjust the range of the hue channel
+    hue_range = 15
+    lower_hue = hsvC[0][0][0] - hue_range
+    upper_hue = hsvC[0][0][0] + hue_range
+
+    # Adjust the thresholds of the saturation and value channels
+    saturation_thresh = 100
+    value_thresh = 100
+    lowerLimit = np.array([lower_hue, saturation_thresh, value_thresh], dtype=np.uint8)
+    upperLimit = np.array([upper_hue, 255, 255], dtype=np.uint8)
 
     return lowerLimit, upperLimit
+
