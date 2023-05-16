@@ -1,10 +1,10 @@
-
 import cv2
 from PIL import Image
-import numpy as np
 from utils import get_limits
 
-color = [0, 255, 0]# green in BGR color space
+
+
+color = [0, 255, 0]  # coloe in BGR color space
 cap = cv2.VideoCapture(0)
 
 while True:
@@ -15,17 +15,13 @@ while True:
     lower_limit, upper_limit = get_limits(color=color)
     mask = cv2.inRange(hsvImage, lower_limit, upper_limit)
 
-    mask_ = Image.fromarray(mask)
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    bbox = mask_.getbbox()
-    print(bbox)
-    # if bbox is None:
-
-
-    if bbox is not None:
-        x1, y1, x2, y2 = bbox
-
-        frame = cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)
+    for contour in contours:
+        bbox = cv2.boundingRect(contour)
+        if bbox[2] > 0 and bbox[3] > 0:
+            x, y, w, h = bbox
+            frame = cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     if ret:
         cv2.imshow('frame', frame)
